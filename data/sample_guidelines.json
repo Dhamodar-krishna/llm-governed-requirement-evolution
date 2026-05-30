@@ -1,0 +1,10 @@
+[
+  {
+    "title": "Sepsis-3 Update",
+    "content": "qSOFA should replace SIRS as the primary sepsis screening mechanism. ICU systems should minimise alert fatigue while preserving rapid detection."
+  },
+  {
+    "title": "Ventilator Escalation Update",
+    "content": "Ventilator escalation alerts should trigger after sustained oxygen saturation decline over 3 minutes."
+  }
+]

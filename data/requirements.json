@@ -1,0 +1,14 @@
+[
+  {
+    "id": "R-SEP-01",
+    "text": "The ICU system shall trigger sepsis alerts using SIRS criteria."
+  },
+  {
+    "id": "R-SEP-02",
+    "text": "The ICU system shall reassess sepsis risk every 15 minutes."
+  },
+  {
+    "id": "R-ALT-07",
+    "text": "Duplicate sepsis alerts within a 5-minute window shall be suppressed."
+  }
+]
