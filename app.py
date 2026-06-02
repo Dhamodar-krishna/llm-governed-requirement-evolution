@@ -1758,7 +1758,18 @@ for safety-critical CPSS environments.
             st.error(
                 "Governance Status: FAIL"
             )
+        original_requirement = requirement_lookup.get(
+            req_id,
+            "Original requirement unavailable"
+        )
 
+        st.write(
+            "### Original Requirement"
+        )
+
+        st.info(
+            original_requirement
+        )
         st.write(
             "### Final Suggested Requirement"
         )

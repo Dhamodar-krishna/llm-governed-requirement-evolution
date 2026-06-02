@@ -36,6 +36,26 @@ Generate a revised requirement that:
 - remains operationally feasible
 - is auditable and computable
 
+IMPORTANT:
+
+Generate a concise repaired requirement.
+
+The repaired requirement must:
+
+- preserve the operational intent introduced by the guideline update,
+- address governance violations without reversing the intended guideline change
+- be written as a single requirement statement,
+- not exceed 2 sentences,
+-The repaired requirement should normally be between 20 and 50 words.
+- not exceed a maximum of 50 words. 
+
+Do not generate implementation specifications,
+audit procedures,
+deployment instructions,
+or lengthy governance documentation.
+
+Return a concise repaired requirement only.
+
 Return STRICT JSON ONLY.
 
 {{
