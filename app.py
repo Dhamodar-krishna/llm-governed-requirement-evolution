@@ -292,6 +292,14 @@ run_button = st.button("Run Evolvability Pipeline")
 # PIPELINE
 # =====================================================
 
+st.divider()
+
+st.subheader("Framework Execution Progress")
+
+progress_bar = st.progress(0)
+
+progress_text = st.empty()
+
 if run_button:
 
     st.divider()
@@ -342,6 +350,12 @@ for adaptive CPSS environments.
         stage1_output = run_stage1(guideline_update)
 
     st.success("Stage 1 Complete")
+
+    progress_bar.progress(10)
+
+    progress_text.info(
+        "10% • Stage 1 Complete"
+    )
 
     st.subheader("Change Type")
 
@@ -419,6 +433,12 @@ under evolving operational conditions.
         )
 
     st.success("Stage 2 Complete")
+    
+    progress_bar.progress(20)
+
+    progress_text.info(
+        "20% • Stage 2 Complete"
+    )
 
     affected = stage2_output.get(
         "affected_requirements",
@@ -579,6 +599,12 @@ under competing operational objectives.
         )
 
     st.success("Stage 3 Complete")
+
+    progress_bar.progress(35)
+
+    progress_text.info(
+        "35% • Adaptive Evolution Complete"
+    )
 
     actions = stage3_output.get(
         "requirement_actions",
@@ -780,6 +806,11 @@ for safety-critical CPSS environments.
         gate_results = run_gate1(
             actions
         )
+    progress_bar.progress(45)
+
+    progress_text.info(
+        "45% • Safety Validation Complete"
+    )
 
     for result in gate_results:
 
@@ -846,6 +877,12 @@ for safety-critical CPSS environments.
         gate2_results = run_gate2(
             actions
         )
+
+    progress_bar.progress(55)
+
+    progress_text.info(
+        "55% • Goal Alignment Complete"
+    )
 
     for result in gate2_results:
 
@@ -920,6 +957,12 @@ for safety-critical CPSS environments.
         gate3_results = run_gate3(
             actions
         )
+
+    progress_bar.progress(65)
+
+    progress_text.info(
+        "65% • Traceability Validation Complete"
+    )
 
     for result in gate3_results:
 
@@ -1010,6 +1053,12 @@ for safety-critical CPSS environments.
             gate3_results
         )
 
+    progress_bar.progress(72)
+
+    progress_text.info(
+        "72% • Conflict Detection Complete"
+    )
+
     for item in conflict_results:
 
         st.warning(
@@ -1092,6 +1141,12 @@ for safety-critical CPSS environments.
 
             conflict_results
         )
+
+    progress_bar.progress(78)
+
+    progress_text.info(
+        "78% • Governance Arbitration Complete"
+    )
 
     for item in arbitration_results:
 
@@ -1189,6 +1244,12 @@ for safety-critical CPSS environments.
 
             arbitration_results
         )
+
+    progress_bar.progress(85)
+
+    progress_text.info(
+        "85% • Governance Synthesis Complete"
+    )
 
     for result in synthesis_results:
 
@@ -1390,6 +1451,12 @@ for safety-critical CPSS environments.
         )
 
         st.divider()
+
+        progress_bar.progress(90)
+
+        progress_text.info(
+            "90% • Confidence Assessment Complete"
+        )
     
     layer_header(
 
@@ -1847,6 +1914,11 @@ for safety-critical CPSS environments.
             "decision":
             decision
         }
+        progress_bar.progress(95)
+
+        progress_text.info(
+            "95% • Human Governance Complete"
+        )
 
     # =================================================
     # GOVERNANCE PROVENANCE RECORDING
@@ -2074,6 +2146,12 @@ for safety-critical CPSS environments.
     )
 
     st.success("Pipeline Execution Complete")
+
+    progress_bar.progress(100)
+
+    progress_text.success(
+        "100% • Framework Execution Complete"
+    )
     
     # =================================================
     # STORE EVOLUTION MEMORY
