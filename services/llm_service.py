@@ -33,23 +33,43 @@ client = AnthropicBedrock(
 # LLM CALL
 # =================================================
 
+import time
+
+
 def call_llm(prompt):
 
-    response = client.messages.create(
+    for attempt in range(3):
 
-        model="anthropic.claude-sonnet-4-6",
+        try:
 
-        max_tokens=4000,
+            response = client.messages.create(
 
-        temperature=0.1,
+                model="anthropic.claude-sonnet-4-6",
 
-        messages=[
+                max_tokens=4000,
 
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ]
-    )
+                temperature=0.1,
 
-    return response.content[0].text
+                messages=[
+
+                    {
+                        "role": "user",
+                        "content": prompt
+                    }
+                ]
+            )
+
+            return response.content[0].text
+
+        except Exception as e:
+
+            if attempt < 2:
+
+                time.sleep(3)
+
+            else:
+
+                raise Exception(
+                    "The LLM service is temporarily unavailable. "
+                    "Please wait a moment and run the framework again."
+                )

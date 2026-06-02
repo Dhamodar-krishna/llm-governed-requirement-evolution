@@ -1921,6 +1921,259 @@ for safety-critical CPSS environments.
         )
 
     # =================================================
+    # FRAMEWORK STATISTICS
+    # =================================================
+
+    st.divider()
+
+    st.header(
+        "Framework Statistics"
+    )
+
+    # ================================================
+    # REQUIREMENT STATISTICS
+    # ================================================
+
+    total_requirements = len(
+        requirements
+    )
+
+    affected_requirements_count = len(
+        affected_requirements
+    )
+
+    evolved_requirements_count = len(
+        stage3_output.get(
+            "requirement_actions",
+            []
+        )
+    )
+
+    st.subheader(
+        "Requirement Statistics"
+    )
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+
+        st.metric(
+            "Requirements Loaded",
+            total_requirements
+        )
+
+    with col2:
+
+        st.metric(
+            "Requirements Affected",
+            affected_requirements_count
+        )
+
+    with col3:
+
+        st.metric(
+            "Requirements Evolved",
+            evolved_requirements_count
+        )
+
+    # ================================================
+    # GOVERNANCE OUTCOMES
+    # ================================================
+
+    pass_count = len([
+
+        r for r in synthesis_results
+
+        if r["final_state"] == "PASS"
+    ])
+
+    review_count = len([
+
+        r for r in synthesis_results
+
+        if r["final_state"] == "REVIEW"
+    ])
+
+    escalate_count = len([
+
+        r for r in synthesis_results
+
+        if r["final_state"] == "ESCALATE"
+    ])
+
+    fail_count = len([
+
+        r for r in synthesis_results
+
+        if r["final_state"] == "FAIL"
+    ])
+
+    st.subheader(
+        "Governance Outcomes"
+    )
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+
+        st.metric(
+            "PASS",
+            pass_count
+        )
+
+    with col2:
+
+        st.metric(
+            "REVIEW",
+            review_count
+        )
+
+    with col3:
+
+        st.metric(
+            "ESCALATE",
+            escalate_count
+        )
+
+    with col4:
+
+        st.metric(
+            "FAIL",
+            fail_count
+        )
+
+    # ================================================
+    # REPAIR STATISTICS
+    # ================================================
+
+    repair_count = len(
+        repair_outputs
+    )
+
+    repair_pass_count = len([
+
+        r for r in repair_alignment_results
+
+        if r["alignment_state"] == "PASS"
+    ])
+
+    repair_review_count = len([
+
+        r for r in repair_alignment_results
+
+        if r["alignment_state"] == "REVIEW"
+    ])
+
+    repair_escalate_count = len([
+
+        r for r in repair_alignment_results
+
+        if r["alignment_state"] == "ESCALATE"
+    ])
+
+    st.subheader(
+        "Repair Statistics"
+    )
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+
+        st.metric(
+            "Repairs Generated",
+            repair_count
+        )
+
+    with col2:
+
+        st.metric(
+            "Repair PASS",
+            repair_pass_count
+        )
+
+    with col3:
+
+        st.metric(
+            "Repair REVIEW",
+            repair_review_count
+        )
+
+    with col4:
+
+        st.metric(
+            "Repair ESCALATE",
+            repair_escalate_count
+        )
+
+    # ================================================
+    # CONFIDENCE STATISTICS
+    # ================================================
+
+    confidence_scores = [
+
+        item["confidence_score"]
+
+        for item in confidence_outputs
+    ]
+
+    if confidence_scores:
+
+        average_confidence = round(
+
+            sum(confidence_scores)
+            /
+            len(confidence_scores),
+
+            1
+        )
+
+    else:
+
+        average_confidence = 0
+
+    st.subheader(
+        "Governance Confidence"
+    )
+
+    st.metric(
+
+        "Average Confidence",
+
+        f"{average_confidence}%"
+    )
+
+    # ================================================
+    # HALLUCINATION PROTECTION
+    # ================================================
+
+    stage2_hallucinations = stage2_output.get(
+
+        "hallucination_count",
+
+        0
+    )
+
+    stage3_hallucinations = stage3_output.get(
+
+        "hallucination_count",
+
+        0
+    )
+
+    st.subheader(
+        "Governance Protection"
+    )
+
+    st.metric(
+
+        "Hallucinated IDs Rejected",
+
+        stage2_hallucinations
+        +
+        stage3_hallucinations
+    )
+
+    # =================================================
     # GOVERNANCE PROVENANCE RECORDING
     # =================================================
 

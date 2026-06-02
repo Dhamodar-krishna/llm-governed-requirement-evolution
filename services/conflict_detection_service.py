@@ -58,22 +58,38 @@ Gate 2 Results:
 Gate 3 Results:
 {json.dumps(gate3_results, indent=2)}
 
-Possible governance conflicts include:
-- alert fatigue reduction
-VS
-escalation responsiveness
+Identify conflicts from the actual
+guideline interpretation,
+requirement evolution,
+and governance gate outputs.
 
-- operational efficiency
-VS
-patient safety
+Do NOT reuse example conflicts.
 
-- workflow optimization
-VS
-traceability preservation
+Do NOT assume:
+- qSOFA transitions
+- SIRS replacement
+- alert fatigue scenarios
+- protocol migration scenarios
 
-- adaptive flexibility
-VS
-governance stability
+unless explicitly present in the current evolution.
+
+Conflicts must be derived solely from:
+- Requirement Evolutions
+- Gate 1 Results
+- Gate 2 Results
+- Gate 3 Results
+
+IMPORTANT:
+
+The conflict reasoning must remain
+fully traceable to the current
+requirement evolution.
+
+If a concept is not present in:
+- requirement evolution,
+- governance gate outputs,
+
+then it must not appear in the conflict analysis.
 
 Return STRICT JSON ONLY.
 
