@@ -7,10 +7,16 @@ from services.llm_service import call_llm
 def run_governance_synthesis(
 
     actions,
-    gate1_results,
-    gate2_results,
-    gate3_results
 
+    gate1_results,
+
+    gate2_results,
+
+    gate3_results,
+
+    conflict_results,
+
+    arbitration_results
 ):
 
     prompt = f"""
@@ -30,6 +36,12 @@ Gate 2 Results:
 Gate 3 Results:
 {json.dumps(gate3_results, indent=2)}
 
+Conflict Detection Results:
+{json.dumps(conflict_results, indent=2)}
+
+Governance Arbitration Results:
+{json.dumps(arbitration_results, indent=2)}
+
 Possible final states:
 - PASS
 - REVIEW
@@ -37,6 +49,15 @@ Possible final states:
 - FAIL
 
 Governance Rules:
+
+Conflict Detection and Governance Arbitration
+provide explanatory governance evidence only.
+
+These outputs may be referenced in synthesis reasoning,
+but may not independently change the governance state.
+
+Governance state transitions are determined solely
+by Gate 1, Gate 2, and Gate 3 outcomes.
 
 - PASS if all governance gates pass.
 
@@ -81,7 +102,7 @@ If Gate1 = PASS
 and Gate2 = PASS
 and Gate3 = PASS
 
-the requirement MUST be PASS.
+the requirement must be classified as PASS,
 
 The synthesis stage may add governance notes,
 but may not downgrade the requirement

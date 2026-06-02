@@ -23,6 +23,29 @@ Your task:
 - identify governance tradeoffs,
 - identify incompatible adaptations.
 
+IMPORTANT:
+
+Use concise governance objectives.
+
+Each objective should be a short phrase
+containing no more than 12 words.
+
+Avoid lengthy explanations inside
+conflicting_objectives.
+
+Place detailed reasoning only in the reasoning field.
+
+IMPORTANT:
+
+Identify only the single most significant governance conflict
+for each requirement evolution.
+
+If multiple conflicts exist,
+select the conflict with the highest governance impact.
+
+Do not return multiple conflicts
+for the same requirement_id.
+
 Requirement Evolutions:
 {json.dumps(actions, indent=2)}
 

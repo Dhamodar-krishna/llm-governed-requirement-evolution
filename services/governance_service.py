@@ -23,8 +23,8 @@ Possible governance states:
 
 Governance Principles:
 
-- PASS if safety invariants remain preserved.
-- REVIEW if moderate governance uncertainty exists.
+- PASS if safety invariants remain preserved, even with moderate concerns.
+- REVIEW if heavy governance uncertainty exists.
 - FAIL only for direct safety-critical degradation.
 
 - Operational adaptation is expected.

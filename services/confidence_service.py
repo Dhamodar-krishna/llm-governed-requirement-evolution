@@ -2,8 +2,6 @@ def calculate_confidence(
 
     synthesis_results,
 
-    feedback_outputs,
-
     evolution_history
 
 ):
@@ -57,22 +55,6 @@ def calculate_confidence(
             len(violated_constraints)
             * 0.05
         )
-
-        # =============================================
-        # REPAIR LOOP IMPACT
-        # =============================================
-
-        repair_triggered = False
-
-        for repair in feedback_outputs:
-
-            if repair.get("id") == item["id"]:
-
-                repair_triggered = True
-
-        if repair_triggered:
-
-            score -= 0.20
 
         # =============================================
         # SCORE NORMALIZATION
@@ -153,9 +135,6 @@ def calculate_confidence(
 
                 "violated_constraints":
                 len(violated_constraints),
-
-                "repair_triggered":
-                repair_triggered,
 
                 "governance_history_available":
                 len(evolution_history) > 0

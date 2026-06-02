@@ -4,22 +4,11 @@ import re
 from services.llm_service import call_llm
 
 
-def run_stage2(change, stage1_output):
-
-    requirements = [
-        {
-            "id": "R-SEP-01",
-            "text": "The ICU system shall trigger sepsis alerts using SIRS criteria."
-        },
-        {
-            "id": "R-SEP-02",
-            "text": "The ICU system shall reassess sepsis risk every 15 minutes."
-        },
-        {
-            "id": "R-ALT-07",
-            "text": "Duplicate sepsis alerts within 5 minutes shall be suppressed."
-        }
-    ]
+def run_stage2(
+    change,
+    stage1_output,
+    requirements
+):
 
     prompt = f"""
 You are performing requirement impact analysis.

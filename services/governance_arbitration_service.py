@@ -20,8 +20,44 @@ Your task:
 - resolve adaptive tradeoffs,
 - recommend governance-aligned decisions.
 
+IMPORTANT:
+
+Generate only one arbitration decision
+for each requirement_id.
+
+The arbitration result must resolve
+the highest-priority governance conflict.
+
+Do not generate multiple arbitration outcomes
+for the same requirement.
+
 Conflict Results:
 {json.dumps(conflict_results, indent=2)}
+
+IMPORTANT:
+
+The conflicting objectives contained within
+Conflict Results are the authoritative governance
+conflicts identified by the Conflict Detection Layer.
+
+You are NOT identifying new objectives.
+
+You are NOT reformulating objectives.
+
+You are NOT introducing additional governance goals.
+
+For each requirement:
+
+- use the conflicting objectives exactly as provided,
+- select the dominant objective,
+- select the suppressed objective,
+- justify the prioritization using the governance hierarchy.
+
+The dominant_objective field MUST exactly match
+one of the objectives supplied by Conflict Detection.
+
+The suppressed_objective field MUST exactly match
+one of the objectives supplied by Conflict Detection.
 
 Priority hierarchy:
 1. Patient safety
@@ -45,8 +81,8 @@ Required JSON format:
   "arbitration_results": [
     {{
       "requirement_id": "R-SEP-01",
-      "dominant_objective": "Patient safety",
-      "suppressed_objective": "Workflow efficiency",
+      "dominant_objective": "Preserve escalation responsiveness during protocol transition",
+      "suppressed_objective": "Reduce alert noise through higher-specificity screening",
       "governance_decision": "Prioritize patient safety over workflow optimization.",
       "reasoning": "Explanation"
     }}

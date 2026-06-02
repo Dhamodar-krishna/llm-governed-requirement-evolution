@@ -29,8 +29,8 @@ Possible governance states:
 
 Rules:
 - FAIL if operational goals are violated.
-- REVIEW if operational tradeoffs exist.
-- PASS if goals remain aligned.
+- REVIEW if heavy operational tradeoffs and uncertainties exist.
+- PASS if goals remain aligned, even with moderate concerns.
 
 Return STRICT JSON ONLY.
 

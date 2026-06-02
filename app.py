@@ -184,22 +184,22 @@ in safety-critical Cyber-Physical-Social Systems (CPSS).
 ---
 
 # INTERPRETATION LAYER
-- Stage 1 — Guideline Interpretation
-- Stage 2 — Requirement Impact Analysis
+- Stage 1 - Guideline Interpretation
+- Stage 2 - Requirement Impact Analysis
 
 ---
 
 # ADAPTIVE EVOLUTION LAYER
-- Stage 3 — Requirement Evolution
+- Stage 3 - Requirement Evolution
 - Historical Governance Memory
 - Governance Pattern Retrieval
 
 ---
 
 # GOVERNANCE ORCHESTRATION
-- Gate 1 — Safety Validation
-- Gate 2 — Goal Alignment
-- Gate 3 — Traceability Integrity
+- Gate 1 - Safety Validation
+- Gate 2 - Goal Alignment
+- Gate 3 - Traceability Integrity
 - Conflict Detection
 - Governance Arbitration
 - Governance Synthesis
@@ -209,6 +209,7 @@ in safety-critical Cyber-Physical-Social Systems (CPSS).
 
 # ADAPTIVE OVERSIGHT
 - Feedback Repair Loop
+- Repair Alignment Assessment
 - Human Governance Approval
 - Provenance Tracking
 - Evolution Memory
@@ -241,6 +242,49 @@ qSOFA should replace SIRS
 as the primary sepsis screening mechanism.
 """
 )
+# =================================================
+# EDITABLE REQUIREMENTS
+# =================================================
+
+with st.expander(
+    "System Requirements",
+    expanded=True
+):
+
+    st.caption(
+        "Modify existing requirements before running the evolvability analysis."
+    )
+
+    edited_requirements = []
+
+    for req in requirements:
+
+        updated_text = st.text_area(
+
+            f"Requirement: {req['id']}",
+
+            value=req["text"],
+
+            height=100,
+
+            key=f"req_{req['id']}"
+        )
+
+        edited_requirements.append({
+
+            "id": req["id"],
+
+            "text": updated_text
+        })
+
+requirements = edited_requirements
+
+requirement_lookup = {
+
+    r["id"]: r["text"]
+
+    for r in requirements
+}
 
 run_button = st.button("Run Evolvability Pipeline")
 
@@ -370,7 +414,8 @@ under evolving operational conditions.
 
         stage2_output = run_stage2(
             guideline_update,
-            stage1_output
+            stage1_output,
+            requirements
         )
 
     st.success("Stage 2 Complete")
@@ -391,28 +436,7 @@ under evolving operational conditions.
 
         for req in affected:
 
-            requirement_labels = {
-
-                "R-SEP-01":
-                """
-                The ICU system shall trigger
-                sepsis alerts using SIRS criteria.
-                """,
-
-                "R-SEP-02":
-                """
-                The ICU system shall reassess
-                sepsis risk every 15 minutes.
-                """,
-
-                "R-ALT-07":
-                """
-                Duplicate sepsis alerts within
-                5 minutes shall be suppressed.
-                """
-            }
-
-            label = requirement_labels.get(
+            label = requirement_lookup.get(
 
                 req["id"],
 
@@ -475,6 +499,11 @@ under evolving operational conditions.
 
             f"Hallucinated IDs Detected: "
             f"{stage2_output['hallucinated_ids']}"
+        )
+    else:
+
+        st.success(
+            "All generated requirement identifiers were validated against the repository."
         )
 
     affected_requirements = stage2_output.get(
@@ -1148,11 +1177,15 @@ for safety-critical CPSS environments.
 
         synthesis_results = run_governance_synthesis(
 
+            actions,
+
             gate_results,
 
             gate2_results,
 
             gate3_results,
+
+            conflict_results,
 
             arbitration_results
         )
@@ -1249,8 +1282,6 @@ for safety-critical CPSS environments.
     confidence_outputs = calculate_confidence(
 
         synthesis_results,
-
-        [],
 
         []
     )
@@ -1399,7 +1430,10 @@ for safety-critical CPSS environments.
 
         r for r in synthesis_results
 
-        if r["final_state"] == "FAIL"
+        if r["final_state"] in [
+            "FAIL",
+            "ESCALATE"
+        ]
     ]
 
     repair_outputs = []
@@ -1524,8 +1558,6 @@ for safety-critical CPSS environments.
     # HUMAN GOVERNANCE
     # =================================================
 
-    st.divider()
-
     st.header("Human Governance Approval")
 
     human_decisions = {}
@@ -1552,10 +1584,87 @@ for safety-critical CPSS environments.
     This preserves accountability and governance integrity
     within adaptive CPSS environments.
     """)
+        
+    confidence_map = {
+
+        item["id"]: item
+
+        for item in confidence_outputs
+    }
 
     for synthesis_item in synthesis_results:
 
         req_id = synthesis_item["id"]
+
+        confidence_item = confidence_map.get(
+            req_id
+        )
+
+        final_requirement = "Requirement unavailable"
+
+        evolution_state = "RETAINED"
+
+        repair_item = next(
+
+            (
+                r
+
+                for r in repair_outputs
+
+                if r["id"] == req_id
+            ),
+
+            None
+        )
+
+        if repair_item:
+
+            final_requirement = repair_item[
+                "repair_candidate"
+            ]
+
+            evolution_state = "REPAIRED"
+
+        else:
+
+            stage3_item = next(
+
+                (
+                    a
+
+                    for a in actions
+
+                    if a["id"] == req_id
+                ),
+
+                None
+            )
+
+            if stage3_item:
+
+                final_requirement = stage3_item.get(
+
+                    "modified_text",
+
+                    requirement_lookup.get(
+                        req_id,
+                        ""
+                    )
+
+                )
+
+                if (
+
+                    stage3_item.get(
+                        "recommended_action",
+                        ""
+                    ).lower()
+
+                    == "modify"
+
+                ):
+
+                    evolution_state = "EVOLVED"
 
         synthesis_state = synthesis_item["final_state"]
 
@@ -1610,6 +1719,18 @@ for safety-critical CPSS environments.
 
         st.subheader(req_id)
 
+        if confidence_item:
+
+            st.info(
+
+                f"""
+        Confidence: {confidence_item['confidence_level']}
+        ({confidence_item['confidence_score']:.0%})
+
+        Evolution Outcome: {evolution_state}
+        """
+            )
+
         # =============================================
         # STATUS DISPLAY
         # =============================================
@@ -1637,6 +1758,14 @@ for safety-critical CPSS environments.
             st.error(
                 "Governance Status: FAIL"
             )
+
+        st.write(
+            "### Final Suggested Requirement"
+        )
+
+        st.success(
+            final_requirement
+        )
 
         # =============================================
         # HUMAN DECISION OPTIONS

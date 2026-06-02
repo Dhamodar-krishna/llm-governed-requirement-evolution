@@ -29,8 +29,8 @@ Possible governance states:
 
 Rules:
 - FAIL if traceability integrity breaks.
-- REVIEW if explainability risks exist.
-- PASS if traceability remains preserved.
+- REVIEW if explainability high risks exist.
+- PASS if traceability remains preserved, even with moderate concerns. 
 
 Return STRICT JSON ONLY.
 
